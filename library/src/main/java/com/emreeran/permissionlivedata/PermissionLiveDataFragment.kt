@@ -43,10 +43,6 @@ internal class PermissionLiveDataFragment : Fragment() {
         return liveDataMap[permission]
     }
 
-    internal fun containsPermission(permission: String): Boolean {
-        return liveDataMap.containsKey(permission)
-    }
-
     internal fun setLiveDataForPermission(permission: String, liveData: MutableLiveData<Permission>) {
         liveDataMap[permission] = liveData
     }
@@ -69,7 +65,7 @@ internal class PermissionLiveDataFragment : Fragment() {
         throw IllegalStateException("PermissionLiveDataFragment must be attached to an Activity")
     }
 
-    internal fun onRequestPermissionsResult(
+    private fun onRequestPermissionsResult(
             permissions: Array<out String>,
             grantResults: IntArray,
             shouldShowRequestPermissionRationale: BooleanArray
