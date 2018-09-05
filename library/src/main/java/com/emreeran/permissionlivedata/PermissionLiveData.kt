@@ -2,7 +2,6 @@ package com.emreeran.permissionlivedata
 
 import android.annotation.TargetApi
 import android.os.Build
-import androidx.annotation.VisibleForTesting
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
@@ -13,29 +12,9 @@ import androidx.lifecycle.MutableLiveData
 /**
  * Created by Emre Eran on 3.09.2018.
  */
-class PermissionLiveData {
+class PermissionLiveData : MediatorLiveData<Permission>() {
 
-    @VisibleForTesting
-    internal var permissionLiveDataFragment: Lazy<PermissionLiveDataFragment>
-
-    @SuppressWarnings("unused") // Public API
-    constructor(fragment: Fragment) : super() {
-        permissionLiveDataFragment = getLazyPermissionLiveDataFragmentSingleton(fragment.childFragmentManager)
-    }
-
-    @SuppressWarnings("unused") // Public API
-    constructor(activity: FragmentActivity) : super() {
-        permissionLiveDataFragment = getLazyPermissionLiveDataFragmentSingleton(activity.supportFragmentManager)
-    }
-
-    @SuppressWarnings("WeakerAccess", "unused") // Public API
-    fun request(vararg permissions: String): MediatorLiveData<Permission> {
-        if (permissions.isEmpty()) {
-            throw IllegalArgumentException("PermissionLiveData request requires at least one permission parameter.")
-        }
-
-        return requestImplementation(*permissions)
-    }
+    internal lateinit var permissionLiveDataFragment: Lazy<PermissionLiveDataFragment>
 
     @SuppressWarnings("WeakerAccess", "unused") // Public API
     fun isGranted(permission: String): Boolean {
@@ -47,7 +26,15 @@ class PermissionLiveData {
         return isMarshmallow() && permissionLiveDataFragment.value.isRevoked(permission)
     }
 
-    private fun requestImplementation(vararg permissions: String): MediatorLiveData<Permission> {
+    private fun request(vararg permissions: String): PermissionLiveData {
+        if (permissions.isEmpty()) {
+            throw IllegalArgumentException("PermissionLiveData request requires at least one permission parameter.")
+        }
+
+        return requestImplementation(*permissions)
+    }
+
+    private fun requestImplementation(vararg permissions: String): PermissionLiveData {
         val list = ArrayList<MutableLiveData<Permission>>(permissions.size)
         val unrequestedPermissions = ArrayList<String>()
 
@@ -77,7 +64,7 @@ class PermissionLiveData {
         }
 
         // Return concat live data from list
-        val liveDataMerger = MediatorLiveData<Permission>()
+        val liveDataMerger = PermissionLiveData()
         for (data in list) {
             liveDataMerger.addSource(data) { liveDataMerger.value = it }
         }
@@ -132,5 +119,21 @@ class PermissionLiveData {
 
     companion object {
         internal const val FRAGMENT_TAG = "PermissionLiveDataFragment"
+
+        @SuppressWarnings("unused") // Public API
+        fun create(fragment: Fragment, vararg permissions: String): PermissionLiveData {
+            val permissionLiveData = PermissionLiveData()
+            permissionLiveData.permissionLiveDataFragment =
+                    permissionLiveData.getLazyPermissionLiveDataFragmentSingleton(fragment.childFragmentManager)
+            return permissionLiveData.request(*permissions)
+        }
+
+        @SuppressWarnings("unused") // Public API
+        fun create(activity: FragmentActivity, vararg permissions: String): PermissionLiveData {
+            val permissionLiveData = PermissionLiveData()
+            permissionLiveData.permissionLiveDataFragment =
+                    permissionLiveData.getLazyPermissionLiveDataFragmentSingleton(activity.supportFragmentManager)
+            return permissionLiveData.request(*permissions)
+        }
     }
 }
