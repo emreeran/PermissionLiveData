@@ -31,10 +31,6 @@ class PermissionLiveData : MediatorLiveData<Permission>() {
             throw IllegalArgumentException("PermissionLiveData request requires at least one permission parameter.")
         }
 
-        return requestImplementation(*permissions)
-    }
-
-    private fun requestImplementation(vararg permissions: String): PermissionLiveData {
         val list = ArrayList<MutableLiveData<Permission>>(permissions.size)
         val unrequestedPermissions = ArrayList<String>()
 
