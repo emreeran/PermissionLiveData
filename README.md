@@ -1,15 +1,15 @@
 # PermissionLiveData
 
-Android runtime permissions as ```LiveData```
+Android runtime permissions as ```LiveData```.
 
 ### Setup
-Add lifecycle and ```locationlivedata``` to your dependencies:
+Add lifecycle and ```permissionlivedata``` to your dependencies:
 
 ```
 dependencies {
 
     implementation "androidx.lifecycle:lifecycle-runtime:2.0.0-rc01"
-    implementation "com.emreeran.permissionlivedata:permissionlivedata:1.0.0"
+    implementation "com.emreeran.permissionlivedata:permissionlivedata:1.0.1"
 
     ...
 }
