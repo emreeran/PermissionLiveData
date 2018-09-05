@@ -45,6 +45,7 @@ android {
 
 dependencies {
     api deps.lifecycle.runtime
+    api deps.lifecycle.extensions
     implementation deps.kotlin.stdlib
     testImplementation deps.junit
 }
