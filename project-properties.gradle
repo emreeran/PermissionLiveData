@@ -32,7 +32,7 @@ properties.version = version
 
 def sdk = [:]
 sdk.target = 28
-sdk.min = 16
+sdk.min = 1
 properties.sdk = sdk
 
 def license = [:]
