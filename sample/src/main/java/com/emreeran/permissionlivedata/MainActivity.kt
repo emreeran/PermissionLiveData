@@ -13,13 +13,19 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.main_activity)
         Timber.plant(Timber.DebugTree())
 
-        val data = PermissionLiveData(this).request(
+        val permissionLiveData = PermissionLiveData.create(
+                this,
                 Manifest.permission.CAMERA,
                 Manifest.permission.ACCESS_FINE_LOCATION
         )
 
-        data.observe(this, Observer {
-            Timber.d("Permission received: $it")
+        permissionLiveData.observe(this, Observer {
+            when {
+                it.granted -> Timber.d("Permission ${it.name} was granted.")
+                it.shouldShowRequestPermissionRationale ->
+                    Timber.d("Permission ${it.name} was denied without ask never again checked.")
+                else -> Timber.d("Permission ${it.name} was denied.")
+            }
         })
     }
 }
