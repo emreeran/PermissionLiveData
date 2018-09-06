@@ -54,7 +54,7 @@ android {
 
 dependencies {
     // Library
-    implementation project(':library')
+    implementation project(':permissionlivedata')
 
     // Kotlin
     implementation deps.kotlin.stdlib
