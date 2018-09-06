@@ -2,6 +2,8 @@
 
 Android runtime permissions as ```LiveData```.
 
+For more information on ```LiveData``` refer to this [link][livedata].
+
 ### Setup
 Add lifecycle and ```permissionlivedata``` to your dependencies:
 
@@ -9,7 +11,11 @@ Add lifecycle and ```permissionlivedata``` to your dependencies:
 dependencies {
 
     implementation "androidx.lifecycle:lifecycle-runtime:2.0.0-rc01"
-    implementation "com.emreeran.permissionlivedata:permissionlivedata:1.0.1"
+    implementation "androidx.lifecycle:lifecycle-extensions:2.0.0-rc01"
+    implementation "androidx.lifecycle:lifecycle-common-java8:2.0.0-rc01"
+    kapt "androidx.lifecycle:lifecycle-compiler:2.0.0-rc01"
+
+    implementation "com.emreeran.permissionlivedata:permissionlivedata:1.0.2"
 
     ...
 }
@@ -41,7 +47,7 @@ permissionLiveData.observe(this, Observer {
 In Java
 
 ```
-PermissionLiveData permissionLiveData = PermissionLiveData.Companion.create(
+PermissionLiveData permissionLiveData = PermissionLiveData.create(
         this,
         Manifest.permission.ACCESS_FINE_LOCATION,
         Manifest.permission.CAMERA
@@ -57,6 +63,8 @@ permissionLiveData.observe(this, permission -> {
     }
 });
 ```
+
+[livedata]: https://developer.android.com/topic/libraries/architecture/livedata
 
 ### License
 
