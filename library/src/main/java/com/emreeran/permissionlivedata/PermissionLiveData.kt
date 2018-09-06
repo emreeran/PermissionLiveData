@@ -116,6 +116,7 @@ class PermissionLiveData : MediatorLiveData<Permission>() {
     companion object {
         internal const val FRAGMENT_TAG = "PermissionLiveDataFragment"
 
+        @JvmStatic
         @SuppressWarnings("unused") // Public API
         fun create(fragment: Fragment, vararg permissions: String): PermissionLiveData {
             val permissionLiveData = PermissionLiveData()
@@ -124,6 +125,7 @@ class PermissionLiveData : MediatorLiveData<Permission>() {
             return permissionLiveData.request(*permissions)
         }
 
+        @JvmStatic
         @SuppressWarnings("unused") // Public API
         fun create(activity: FragmentActivity, vararg permissions: String): PermissionLiveData {
             val permissionLiveData = PermissionLiveData()

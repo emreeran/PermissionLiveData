@@ -18,7 +18,7 @@ public class JavaActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
 
-        PermissionLiveData permissionLiveData = PermissionLiveData.Companion.create(
+        PermissionLiveData permissionLiveData = PermissionLiveData.create(
                 this,
                 Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.CAMERA
