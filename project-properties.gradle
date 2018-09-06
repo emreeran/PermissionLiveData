@@ -19,7 +19,7 @@ developerProperties.load(project.rootProject.file('developer.properties').newDat
 
 def properties = [:]
 properties.name = 'PermissionLiveData'
-properties.description = 'A simple LiveData implementation of Android permissions.'
+properties.description = 'A simple LiveData implementation of Android runtime permissions.'
 properties.url = 'https://github.com/emreeran/PermissionLiveData'
 properties.groupId = 'com.emreeran.permissionlivedata'
 properties.artifact = 'permissionlivedata'
@@ -27,7 +27,7 @@ properties.packaging = 'aar'
 
 def version = [:]
 version.code = 1
-version.name = '1.0.1'
+version.name = '1.0.2'
 properties.version = version
 
 def sdk = [:]
