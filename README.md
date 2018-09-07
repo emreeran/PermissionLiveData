@@ -25,7 +25,7 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-common-java8:2.0.0-rc01"
     kapt "androidx.lifecycle:lifecycle-compiler:2.0.0-rc01"
 
-    implementation "com.emreeran.permissionlivedata:permissionlivedata:1.0.2"
+    implementation "com.emreeran.permissionlivedata:permissionlivedata:1.0.3"
 
     ...
 }
