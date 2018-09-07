@@ -75,7 +75,14 @@ internal class PermissionLiveDataFragment : Fragment() {
             liveData?.let {
                 liveDataMap.remove(permissions[i])
                 val granted = grantResults[i] == PackageManager.PERMISSION_GRANTED
-                it.postValue(Permission(permissions[i], granted, shouldShowRequestPermissionRationale[i]))
+                it.postValue(
+                        Permission(
+                                permissions[i],
+                                granted,
+                                shouldShowRequestPermissionRationale[i],
+                                Status.RECEIVED
+                        )
+                )
             }
         }
     }

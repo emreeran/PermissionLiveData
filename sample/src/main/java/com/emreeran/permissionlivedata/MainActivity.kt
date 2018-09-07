@@ -20,11 +20,15 @@ class MainActivity : AppCompatActivity() {
         )
 
         permissionLiveData.observe(this, Observer {
-            when {
-                it.granted -> Timber.d("Permission ${it.name} was granted.")
-                it.shouldShowRequestPermissionRationale ->
-                    Timber.d("Permission ${it.name} was denied without ask never again checked.")
-                else -> Timber.d("Permission ${it.name} was denied.")
+            if (it.status == Status.RECEIVED) {
+                when {
+                    it.granted -> Timber.d("Permission ${it.name} was granted.")
+                    it.shouldShowRequestPermissionRationale ->
+                        Timber.d("Permission ${it.name} was denied without ask never again checked.")
+                    else -> Timber.d("Permission ${it.name} was denied.")
+                }
+            } else if (it.status == Status.PENDING) {
+                Timber.d("Pending request for ${it.name}")
             }
         })
     }

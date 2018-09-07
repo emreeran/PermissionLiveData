@@ -25,12 +25,16 @@ public class JavaActivity extends AppCompatActivity {
         );
 
         permissionLiveData.observe(this, permission -> {
-            if (permission.getGranted()) {
-                Timber.d("Permission " + permission.getName() + " was granted.");
-            } else if (permission.getShouldShowRequestPermissionRationale()) {
-                Timber.d("Permission " + permission.getName() + " was denied without ask never again checked.");
-            } else {
-                Timber.d("Permission " + permission.getName() + " was denied.");
+            if (permission.getStatus() == Status.RECEIVED) {
+                if (permission.getGranted()) {
+                    Timber.d("Permission " + permission.getName() + " was granted.");
+                } else if (permission.getShouldShowRequestPermissionRationale()) {
+                    Timber.d("Permission " + permission.getName() + " was denied without ask never again checked.");
+                } else {
+                    Timber.d("Permission " + permission.getName() + " was denied.");
+                }
+            } else if (permission.getStatus() == Status.PENDING) {
+                Timber.d("Pending request for %s", permission.getName());
             }
         });
     }

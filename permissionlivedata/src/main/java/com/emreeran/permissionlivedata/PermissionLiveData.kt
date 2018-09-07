@@ -18,7 +18,7 @@ class PermissionLiveData : MediatorLiveData<Permission>() {
 
     @SuppressWarnings("WeakerAccess", "unused") // Public API
     fun isGranted(permission: String): Boolean {
-        return !isMarshmallow() && permissionLiveDataFragment.value.isGranted(permission)
+        return !isMarshmallow() || permissionLiveDataFragment.value.isGranted(permission)
     }
 
     @SuppressWarnings("WeakerAccess", "unused") // Public API
@@ -36,19 +36,39 @@ class PermissionLiveData : MediatorLiveData<Permission>() {
 
         for (permission in permissions) {
             if (isGranted(permission)) {
+                val grantedPermission = MutableLiveData<Permission>()
+                grantedPermission.value = Permission(
+                        name = permission,
+                        granted = true,
+                        status = Status.RECEIVED
+                )
+
                 // Return granted permission object
+                list.add(grantedPermission)
                 continue
             }
 
             if (isRevoked(permission)) {
                 // Return denied permission object
+                val revokedPermission = MutableLiveData<Permission>()
+                revokedPermission.value = Permission(
+                        name = permission,
+                        granted = false,
+                        status = Status.RECEIVED
+                )
+                list.add(revokedPermission)
                 continue
             }
 
             var liveData = permissionLiveDataFragment.value.getLiveDataByPermission(permission)
             if (liveData == null) {
                 unrequestedPermissions.add(permission)
-                liveData = MutableLiveData()
+                liveData = MutableLiveData<Permission>()
+                val pendingPermission = Permission(
+                        name = permission,
+                        granted = false
+                )
+                liveData.value = pendingPermission
                 permissionLiveDataFragment.value.setLiveDataForPermission(permission, liveData)
             }
             list.add(liveData)

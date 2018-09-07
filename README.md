@@ -25,7 +25,7 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-common-java8:2.0.0-rc01"
     kapt "androidx.lifecycle:lifecycle-compiler:2.0.0-rc01"
 
-    implementation "com.emreeran.permissionlivedata:permissionlivedata:1.0.3"
+    implementation "com.emreeran.permissionlivedata:permissionlivedata:1.0.4"
 
     ...
 }
@@ -45,11 +45,15 @@ val permissionLiveData = PermissionLiveData.create(
 )
 
 permissionLiveData.observe(this, Observer {
-    when {
-        it.granted -> Timber.d("Permission ${it.name} was granted.")
-        it.shouldShowRequestPermissionRationale ->
-            Timber.d("Permission ${it.name} was denied without ask never again checked.")
-        else -> Timber.d("Permission ${it.name} was denied.")
+    if (it.status == Status.RECEIVED) {
+        when {
+            it.granted -> Timber.d("Permission ${it.name} was granted.")
+            it.shouldShowRequestPermissionRationale ->
+                Timber.d("Permission ${it.name} was denied without ask never again checked.")
+            else -> Timber.d("Permission ${it.name} was denied.")
+        }
+    } else if (it.status == Status.PENDING) {
+        Timber.d("Pending request for ${it.name}")
     }
 })
 ```
@@ -64,12 +68,16 @@ PermissionLiveData permissionLiveData = PermissionLiveData.create(
 );
 
 permissionLiveData.observe(this, permission -> {
-    if (permission.getGranted()) {
-        Timber.d("Permission " + permission.getName() + " was granted.");
-    } else if (permission.getShouldShowRequestPermissionRationale()) {
-        Timber.d("Permission " + permission.getName() + " was denied without ask never again checked.");
-    } else {
-        Timber.d("Permission " + permission.getName() + " was denied.");
+    if (permission.getStatus() == Status.RECEIVED) {
+        if (permission.getGranted()) {
+            Timber.d("Permission " + permission.getName() + " was granted.");
+        } else if (permission.getShouldShowRequestPermissionRationale()) {
+            Timber.d("Permission " + permission.getName() + " was denied without ask never again checked.");
+        } else {
+            Timber.d("Permission " + permission.getName() + " was denied.");
+        }
+    } else if (permission.getStatus() == Status.PENDING) {
+        Timber.d("Pending request for %s", permission.getName());
     }
 });
 ```

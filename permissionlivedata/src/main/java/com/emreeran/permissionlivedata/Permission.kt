@@ -6,5 +6,11 @@ package com.emreeran.permissionlivedata
 data class Permission(
         val name: String,
         val granted: Boolean,
-        val shouldShowRequestPermissionRationale: Boolean = false
+        val shouldShowRequestPermissionRationale: Boolean = false,
+        val status: Status = Status.PENDING
 )
+
+enum class Status {
+    PENDING,
+    RECEIVED
+}
