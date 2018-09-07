@@ -5,6 +5,16 @@ Android runtime permissions as ```LiveData```.
 For more information on ```LiveData``` refer to this [link][livedata].
 
 ### Setup
+
+Add repository
+```
+repositories {
+    maven {
+        url  "https://dl.bintray.com/emre/maven"
+    }
+}
+```
+
 Add lifecycle and ```permissionlivedata``` to your dependencies:
 
 ```
