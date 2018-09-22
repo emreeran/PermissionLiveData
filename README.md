@@ -6,12 +6,10 @@ For more information on ```LiveData``` refer to this [link][livedata].
 
 ### Setup
 
-Add repository
+Add jcenter repository
 ```
 repositories {
-    maven {
-        url  "https://dl.bintray.com/emre/maven"
-    }
+    jcenter()
 }
 ```
 
